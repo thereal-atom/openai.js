@@ -6,12 +6,12 @@ Simplified openAI API wrapper for JavaScript
 npm install openai.js
 yarn add openai.js
 ```
-# Usage
 ## Initialize
 ```js
 const OpenAI = require("openai.js");
 const ai = new OpenAI("OPENAI_API_KEY");
 ```
+# Usage
 ## Functions 
 #### Chat
 Open ended conversation with the AI.
