@@ -10,7 +10,7 @@ yarn add openai.js
 ### Initialize
 ```js
 const OpenAI = require("openai.js");
-const ai = new OpenAI("API_KEY");
+const ai = new OpenAI("OPENAI_API_KEY");
 ```
 ### Chat
 Open ended conversation with the AI.
