@@ -47,4 +47,24 @@ Translates code from one programming language to another
 const code = await ai.TranslateCode("python", "javascript", "print("Hello World!")")
 //return console.log("Hello World!")
 ```
-
+### Tutor
+Answers questions on the subject given
+```js
+//Answers "How do i calculate the are of a circle?" based on the subject "Math"
+const answer = await ai.Tutor("Math", "How do i calculate the are of a circle?");
+returns You can use the formula: A = pi * r^2
+```
+### AutoComplete
+Finishes a sentence
+```js
+//Finished the sentence "An apple a day"
+const complete = await ai.AutoComplete("An apple a day");
+//return keeps the doctor away
+```
+### Semantic Search
+Scores array of documents based on relevance to query
+```js
+//Find the most relevant document in the array ["White House", "hospital", "school"] based on the query "teacher"
+const searchResult = await ai.Search(["White House", "hospital", "school"], "teacher"));
+//return school
+```
