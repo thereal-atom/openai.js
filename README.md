@@ -46,4 +46,5 @@ Translates code from one programming language to another
 //Translates the code "print("Hello World!")" from python to JavaScript
 const code = await ai.TranslateCode("python", "javascript", "print("Hello World!")")
 //return console.log("Hello World!")
+```
 
