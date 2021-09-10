@@ -8,7 +8,7 @@ module.exports = class OpenAI {
         this.url = `${base}/${version}/engines/`;
         this.headers = {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`
+            "Authorization": `Bearer ${apiKey}`
         };
         this.options = {
             "temperature": 0.3,
@@ -18,33 +18,25 @@ module.exports = class OpenAI {
             "presence_penalty": 0.0,
         };
     }
-    async complete(prompt, stop, endpoint = "davinci/completions"){
-        process.stdout.write("Calculating...");
-        const { data } = await axios.post(this.url+endpoint, {
-            prompt, ...this.options, stop
-        },{headers: this.headers});
+    async request(endpoint, body){
+        process.stdout.write("Intructing...");
+        const { data } = await axios.post(`${this.url}${endpoint}`, {...body}, {headers: this.headers});
         process.stdout.clearLine();
         process.stdout.cursorTo(0);
-        return data.choices[0].text.replace(" ", "");
+        return data;
+    }
+    async complete(prompt, stop, endpoint = "davinci/completions"){
+        const res = await this.request(endpoint, {prompt, ...this.options, stop});
+        return res.choices[0].text.replace(" ", "")
     }
     async search(documents, query, endpoint = "davinci/search"){
-        process.stdout.write("Searching...");
-        const { data } = await axios.post(this.url+endpoint, {
-            documents, query
-        },{headers: this.headers});
-        process.stdout.clearLine();
-        process.stdout.cursorTo(0);
-        const index = data.data.sort((a, b) => b.score - a.score)[0].document;
+        const res = await this.request(endpoint, {documents, query});
+        const index = res.data.sort((a, b) => b.score - a.score)[0].document;
         return documents[index];
     }
-    async intruct(instruction, endpoint = "davinci-instruct-beta/completions" ){
-        process.stdout.write("Intructing...");
-        const { data } = await axios.post(this.url+endpoint, {
-            prompt: instruction, ...this.options.temperature = 0.7
-        },{headers: this.headers});
-        process.stdout.clearLine();
-        process.stdout.cursorTo(0);
-        return data.choices[0].text;
+    async instruct(instruction, endpoint = "davinci-instruct-beta/completions" ){
+        const res = await this.request(endpoint, {prompt: instruction, ...this.options, temperature: 0.7})
+        return res.choices[0].text;
     }
     //Translate
     Translate(languageFrom, languageTo, text){
